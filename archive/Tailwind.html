@@ -1,0 +1,140 @@
+<!-- 
+    Tailwind
+    JIT ENgine - compiler scans your HTML/JSX/TSX files, extracts class tokens.
+    PostCSS AST - Abstract Syntax Tree, a representation of the CSS code structure. Contains only the exact rules you used.
+
+    Arbitrary Variants
+    -> [&>*] - targets direct children of the element
+    -> [&_tr]: targets all tr elements that are descendants of the element
+    <tr><td><code></code></td></tr> - targets all code elements that are descendants of tr elements that are descendants of the element
+
+    & - parent selector
+    [&>p]:mb-4 Target direct child paragraphs (.parent > p)
+    > Peer
+    -> sibling state machines - named peers (peer/{name})
+    CSS General Sibling Combinator (~) - selects all elements that are siblings of a specified element and come after it in the DOM tree.
+    Goldem DOM Rule - ~ only looks forward at subsequent siblings, not backward at previous siblings. It does not select elements that come before the specified element in the DOM tree.
+
+    > Groups - group/{name}
+    CSS descendant combinator (space) - selects all elements that are descendants of a specified element, regardless of their position in the DOM tree.
+    - Dark Mode
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'ui-sans-serif', 'system-ui'],
+                        'serif': ['ui-serif', 'Georgia'],
+                        'mono': ['ui-monospace', 'SFMono-Regular'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 
+        @custom-variant pink (&:where(.pink, .pink *)) {
+            @apply text-pink-500;
+        }
+        */
+        :root {
+            --brand-accent: #ec4899; /* Tailwind Pink 500 */
+            --brand-glow: #f9a8d4; /* Tailwind Pink 300 */
+        }
+        .dark {
+            --brand-accent: #f472b6; /* Tailwind Pink 400 */
+            --brand-glow: #f9a8d4; /* Tailwind Pink 300 */
+        }
+
+        .profile-container {
+            margin-inline: auto;
+        }
+
+        /* Layers */
+        @layer base, components, utilities {
+            /* Base styles */
+            body {
+                @apply bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200 h-screen flex flex-col overflow-hidden font-sans transition-colors duration-300 select-none;
+            }
+
+            /* Component styles */
+            .profile-container {
+                @apply h-16 flex items-center justify-between gap-2;
+            }
+
+            /* Utility styles */
+            .hover\:text-slate-900:hover {
+                @apply text-slate-900;
+            }
+        }
+    </style>
+    <!-- div class="[.pink_&]:border-slate-500" -->
+</head>
+<body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200 h-screen flex flex-col overflow-hidden font-sans transition-colors duration-300 select-none">
+    <!-- HEADER BAR -->
+    <header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 h-16 flex items-cemter px-4">
+        <div class="profile-container h-16 flex items-center justify-between gap-2">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtQ9coO_rybMsdv7BXfHweWJ4nFgSVoAQCTPuNN1GDHAGiP3v7Yv9TK6r7&s=10" alt="Profile Picture" class="w-10 h-10 rounded-full">
+            <div>
+                <span class="font-bold text-sm text-slate-900 dark:text-white block leading-none">John Doe</span>
+                <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400">Full-Stack Developer</span>
+            </div>
+        </div>
+
+        <!-- navbar -->
+        <nav class="hidden md:flex items-center gap-5 text-xs font-semibold text-slate-600 dark:text-slate-400 ml-auto">
+            <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors duration-300">Home</a>
+            <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors duration-300">About</a>
+            <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors duration-300">Services</a>
+            <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors duration-300">Contact</a>
+        </nav>
+
+        <!-- Dark mode toggler -->
+        <button id="theme-toggle" class="ml-auto md:ml-4 p-2 rounded-full bg-slate-900 dark:bg-sky-700 text-white dark:text-slate-900 hover:bg-slate-600 dark:hover:bg-slate-300 transition-colors duration-300">
+            <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.22.78a1 1 0 011.42 0l.71.71a1 1 0 11-1.42 1.42l-.71-.71a1 1 0 010-1.42zM18 9a1 1 0 110 2h-1a1 1 0 110-2h1zm-7 7a5.002 5.002 0 01-4.546-2.916A5.002..."></path></svg>
+            <span id="theme-text">Dark Mode</span>
+        </button>
+    </header>
+
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const themeText = document.getElementById('theme-text');
+        const iconSun = document.getElementById('theme-toggle-light-icon');
+        const iconMoon = document.getElementById('theme-toggle-dark-icon');
+
+        function updateThemeUI() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const isPink = document.documentElement.classList.contains('pink');
+            if(isDark) {
+                themeText.textContent = 'Light Mode';
+                iconSun.classList.remove('hidden');
+                iconMoon.classList.add('hidden');
+            } else {
+                themeText.textContent = 'Dark Mode';
+                iconSun.classList.add('hidden');
+                iconMoon.classList.remove('hidden');
+            }
+        }
+        updateThemeUI();
+
+        toggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            updateThemeUI();
+        });
+    </script>
+</body>
+</html>

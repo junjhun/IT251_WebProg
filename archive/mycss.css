@@ -1,0 +1,123 @@
+/* BASE LEVEL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: bisque;
+    color: #333;
+}
+
+/* MOBILE NAVBAR */
+#main-nav {
+    background-color: maroon;
+    color: bisque;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.menu-checkbox {
+    display: none;
+}
+
+.menu-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: block;
+}
+
+.nav-menu {
+    width: 100%;
+    display: none;
+    margin-top: 15px;
+}
+
+.nav-menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.nav-menu a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* if checked */
+.menu-checkbox:checked ~ .nav-menu {
+    display: block;
+}
+
+/* GRID Layout */
+.blog-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+
+    /* Lock the height to the window (100vh) minus the header (60px) */
+    height: calc(100vh - 60px); 
+    overflow-y: auto; /* On mobile, the whole container scrolls normally */
+}
+
+/* BLOG POST */
+.blog-post, .sidebar {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.blog-post {
+    margin: 20px 0;
+}
+
+/* DESKTOP */
+@media (min-width: 768px) {
+    .menu-icon {
+        display: none;
+    }
+
+    .nav-menu {
+        display: block !important;
+        width: auto;
+        margin-top: 0;
+        position: static; /* Put it back in the normal flow */
+    }
+
+    .nav-menu ul {
+        flex-direction: row;
+        gap: 30px;
+    }
+
+    .blog-container {
+        grid-template-columns: 1fr 300px;
+        max-width: 1200px;
+        margin: 0 auto;
+        overflow-y: hidden; /* Stop container scroll on desktop */
+    }
+
+    .scrollable-content {
+        /* Take up the full height of the container */
+        height: 100%; 
+        /* Add a scrollbar ONLY if content overflows the height */
+        overflow-y: auto; 
+        /* Hide scrollbar for a cleaner look (optional) */
+        scrollbar-width: none; 
+        padding-right: 10px; /* Prevent text from touching the scrollbar */
+    }
+}
+
+
+
+

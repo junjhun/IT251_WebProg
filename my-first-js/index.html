@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First JavaScript</title>
+    <!-- <script src="script.js"></script> - poor -->
+    <script defer src="script.js"></script>
+    <!-- <script type="module" src="script.js"> -->
+        <!-- // console.log("Hello from inline script!");
+    </script> - best -->
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript</h1>
+
+    <div class="box">
+        <h2>Hello</h2>
+        <input id="name-input" type="text" placeholder="Enter your name">
+        <button id="greet-btn">Greet Me</button>
+        <p id="message">Waiting for your name... </p>
+    </div>
+
+    <div class="box">
+        <h2>Counter</h2>
+        <p id="counter-value">0</p>
+        <button id="increment-btn">Increment</button>
+        <button id="decrement-btn">Decrement</button>
+        <button id="reset-btn">Reset</button>
+    </div> 
+    <!-- <script src="script.js"></script> - workaround -->
+</body>
+</html>
